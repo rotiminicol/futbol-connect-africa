@@ -13,6 +13,13 @@ import RegisterPage from "./pages/RegisterPage";
 import PricingPage from "./pages/PricingPage";
 import DashboardPage from "./pages/DashboardPage";
 
+// Admin Pages
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import UsersManagementPage from "./pages/admin/UsersManagementPage";
+import PlayersManagementPage from "./pages/admin/PlayersManagementPage";
+import AddPlayerPage from "./pages/admin/AddPlayerPage";
+import SystemSettingsPage from "./pages/admin/SystemSettingsPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -29,6 +36,14 @@ const App = () => (
             <Route path="/signup" element={<RegisterPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/dashboard/*" element={<DashboardPage />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/admin/users" element={<UsersManagementPage />} />
+            <Route path="/admin/players" element={<PlayersManagementPage />} />
+            <Route path="/admin/players/add" element={<AddPlayerPage />} />
+            <Route path="/admin/settings" element={<SystemSettingsPage />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
