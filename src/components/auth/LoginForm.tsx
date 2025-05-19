@@ -20,18 +20,10 @@ const LoginForm: React.FC = () => {
     
     try {
       await login(email, password);
-      toast({
-        title: "Login successful",
-        description: "You are now logged in to your account",
-      });
       navigate('/dashboard');
     } catch (error) {
-      console.error('Login error:', error);
-      toast({
-        title: "Login failed",
-        description: "Please check your credentials and try again",
-        variant: "destructive",
-      });
+      // Toast is shown in the auth context
+      console.error('Login failed:', error);
     } finally {
       setIsLoading(false);
     }
@@ -54,15 +46,11 @@ const LoginForm: React.FC = () => {
             className="w-full"
           />
         </div>
+        
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Password
-            </label>
-            <a href="/forgot-password" className="text-sm text-nigerian-green-500 hover:underline">
-              Forgot password?
-            </a>
-          </div>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Password
+          </label>
           <Input
             id="password"
             type="password"
@@ -72,20 +60,27 @@ const LoginForm: React.FC = () => {
             required
             className="w-full"
           />
+          <div className="flex justify-end">
+            <a href="/forgot-password" className="text-sm text-nigerian-green-500 hover:underline">
+              Forgot password?
+            </a>
+          </div>
         </div>
+        
         <Button
           type="submit"
           className="w-full bg-nigerian-green-500 hover:bg-nigerian-green-600"
           disabled={isLoading}
         >
-          {isLoading ? 'Logging in...' : 'Log in'}
+          {isLoading ? 'Signing In...' : 'Sign In'}
         </Button>
       </form>
+      
       <div className="mt-6 text-center text-sm">
         <p className="text-gray-600 dark:text-gray-400">
           Don't have an account?{' '}
-          <a href="/signup" className="text-nigerian-green-500 hover:underline">
-            Sign up
+          <a href="/register" className="text-nigerian-green-500 hover:underline">
+            Register
           </a>
         </p>
       </div>

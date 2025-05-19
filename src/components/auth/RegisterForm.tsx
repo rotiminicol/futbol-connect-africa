@@ -47,11 +47,7 @@ const RegisterForm: React.FC = () => {
       navigate('/pricing');
     } catch (error) {
       console.error('Signup error:', error);
-      toast({
-        title: "Registration failed",
-        description: "There was a problem creating your account",
-        variant: "destructive",
-      });
+      // Toast is shown in the AuthContext
     } finally {
       setIsLoading(false);
     }
