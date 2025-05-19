@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+        // Nigerian flag colors
+        "nigerian-green": {
+          DEFAULT: "#008753",
+          50: "#E5FFEF",
+          100: "#C2FFDF",
+          200: "#83FFBD",
+          300: "#43FC9D",
+          400: "#0CDF79",
+          500: "#008753", 
+          600: "#006942",
+          700: "#004E31",
+          800: "#00321F",
+          900: "#001A10",
+        },
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +99,16 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				'bounce': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' }
+        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'bounce': 'bounce 1.5s infinite'
 			}
 		}
 	},
