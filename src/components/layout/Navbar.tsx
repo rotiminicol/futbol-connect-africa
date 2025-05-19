@@ -14,13 +14,24 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, profile, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  // Get display name from profile or email
+  const displayName = profile?.full_name || user?.email?.split('@')[0] || 'User';
+  
+  // Get initials for avatar fallback
+  const getInitials = () => {
+    if (profile?.full_name) {
+      return profile.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
+    }
+    return user?.email?.[0].toUpperCase() || 'U';
   };
 
   return (
@@ -60,15 +71,15 @@ const Navbar: React.FC = () => {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.avatar || '/placeholder.svg'} alt={user.name} />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        <AvatarImage src={profile?.avatar_url || '/placeholder.svg'} alt={displayName} />
+                        <AvatarFallback>{getInitials()}</AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user.name}</p>
+                        <p className="text-sm font-medium leading-none">{displayName}</p>
                         <p className="text-xs leading-none text-muted-foreground">
                           {user.email}
                         </p>
@@ -198,12 +209,12 @@ const Navbar: React.FC = () => {
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={user.avatar || '/placeholder.svg'} alt={user.name} />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={profile?.avatar_url || '/placeholder.svg'} alt={displayName} />
+                    <AvatarFallback>{getInitials()}</AvatarFallback>
                   </Avatar>
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800 dark:text-white">{user.name}</div>
+                  <div className="text-base font-medium text-gray-800 dark:text-white">{displayName}</div>
                   <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{user.email}</div>
                 </div>
               </div>
