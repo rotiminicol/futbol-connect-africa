@@ -11,7 +11,7 @@ const RegisterPage = () => {
           <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
             <div className="p-8">
               <div className="text-center mb-8">
-                <h1 className="text-2xl font-bold">Create Your Account</h1>
+                <h1 className="text-2xl font-bold text-blue-theme-700 dark:text-blue-theme-400">Create Your Account</h1>
                 <p className="text-gray-600 dark:text-gray-400 mt-2">
                   Join the premier football talent marketplace in Nigeria
                 </p>

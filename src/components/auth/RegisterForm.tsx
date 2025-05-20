@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { UserRole } from '@/contexts/AuthContext';
+import { Mail, User, Lock } from "lucide-react";
 
 const RegisterForm: React.FC = () => {
   const [name, setName] = useState('');
@@ -39,13 +40,14 @@ const RegisterForm: React.FC = () => {
     setIsLoading(true);
     
     try {
+      console.log("Attempting signup with:", email, name, role);
       await signup(name, email, password, role);
       toast({
         title: "Registration successful",
         description: "Your account has been created. Please complete your profile.",
       });
       navigate('/pricing');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Signup error:', error);
       // Toast is shown in the AuthContext
     } finally {
@@ -60,46 +62,61 @@ const RegisterForm: React.FC = () => {
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Full Name
           </label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="John Doe"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full"
-          />
+          <div className="relative">
+            <span className="absolute left-3 top-2.5 text-gray-500">
+              <User size={18} />
+            </span>
+            <Input
+              id="name"
+              type="text"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="pl-10 w-full"
+            />
+          </div>
         </div>
         
         <div className="space-y-2">
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Email
           </label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="your@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full"
-          />
+          <div className="relative">
+            <span className="absolute left-3 top-2.5 text-gray-500">
+              <Mail size={18} />
+            </span>
+            <Input
+              id="email"
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="pl-10 w-full"
+            />
+          </div>
         </div>
         
         <div className="space-y-2">
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Password
           </label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full"
-            minLength={8}
-          />
+          <div className="relative">
+            <span className="absolute left-3 top-2.5 text-gray-500">
+              <Lock size={18} />
+            </span>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="pl-10 w-full"
+              minLength={8}
+            />
+          </div>
           <p className="text-xs text-gray-500">Must be at least 8 characters</p>
         </div>
         
@@ -142,10 +159,10 @@ const RegisterForm: React.FC = () => {
         
         <Button
           type="submit"
-          className="w-full bg-blue-theme-500 hover:bg-blue-theme-600"
+          className="w-full bg-blue-theme-600 hover:bg-blue-theme-700 text-white"
           disabled={isLoading}
         >
-          {isLoading ? 'Creating Account...' : 'Sign up'}
+          {isLoading ? 'Creating Account...' : 'Sign Up'}
         </Button>
       </form>
       
