@@ -12,6 +12,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import PricingPage from "./pages/PricingPage";
 import DashboardPage from "./pages/DashboardPage";
+import TransferMarketPage from "./pages/TransferMarketPage";
+import EventsPage from "./pages/EventsPage";
+import NewsPage from "./pages/NewsPage";
 
 // Admin Pages
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
@@ -36,6 +39,9 @@ const App = () => (
             <Route path="/signup" element={<RegisterPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/dashboard/*" element={<DashboardPage />} />
+            <Route path="/transfer-market" element={<TransferMarketPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/news" element={<NewsPage />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminDashboardPage />} />

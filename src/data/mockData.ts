@@ -1,4 +1,3 @@
-
 import { UserRole } from '../contexts/AuthContext';
 
 export interface Player {
@@ -40,11 +39,11 @@ export interface Club {
 export interface Event {
   id: string;
   title: string;
+  description: string;
   date: string;
   location: string;
-  type: 'trial' | 'tournament' | 'showcase' | 'workshop';
   organizer: string;
-  description: string;
+  type: 'trial' | 'tournament' | 'showcase' | 'workshop';
   image?: string;
 }
 
