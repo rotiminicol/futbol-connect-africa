@@ -32,7 +32,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
           className="w-full h-48 object-cover object-center"
         />
         {player.availableForTransfer && (
-          <Badge className="absolute top-2 right-2 bg-nigerian-green-500">
+          <Badge className="absolute top-2 right-2 bg-blue-theme-500">
             Available
           </Badge>
         )}
@@ -71,7 +71,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <div className="text-xs">Pace</div>
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
               <div 
-                className="bg-nigerian-green-500 h-1 rounded-full" 
+                className="bg-blue-theme-500 h-1 rounded-full" 
                 style={{ width: `${player.stats.pace}%` }}
               ></div>
             </div>
@@ -80,7 +80,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <div className="text-xs">Shoot</div>
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
               <div 
-                className="bg-nigerian-green-500 h-1 rounded-full" 
+                className="bg-blue-theme-500 h-1 rounded-full" 
                 style={{ width: `${player.stats.shooting}%` }}
               ></div>
             </div>
@@ -89,7 +89,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <div className="text-xs">Pass</div>
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
               <div 
-                className="bg-nigerian-green-500 h-1 rounded-full" 
+                className="bg-blue-theme-500 h-1 rounded-full" 
                 style={{ width: `${player.stats.passing}%` }}
               ></div>
             </div>
@@ -100,7 +100,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <div className="text-xs">Dribble</div>
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
               <div 
-                className="bg-nigerian-green-500 h-1 rounded-full" 
+                className="bg-blue-theme-500 h-1 rounded-full" 
                 style={{ width: `${player.stats.dribbling}%` }}
               ></div>
             </div>
@@ -109,7 +109,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <div className="text-xs">Defend</div>
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
               <div 
-                className="bg-nigerian-green-500 h-1 rounded-full" 
+                className="bg-blue-theme-500 h-1 rounded-full" 
                 style={{ width: `${player.stats.defending}%` }}
               ></div>
             </div>
@@ -118,7 +118,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
             <div className="text-xs">Physical</div>
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
               <div 
-                className="bg-nigerian-green-500 h-1 rounded-full" 
+                className="bg-blue-theme-500 h-1 rounded-full" 
                 style={{ width: `${player.stats.physical}%` }}
               ></div>
             </div>
@@ -128,7 +128,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
       <CardFooter className="pt-0">
         <Button 
           onClick={() => navigate(`/players/${player.id}`)}
-          className="w-full bg-nigerian-green-500 hover:bg-nigerian-green-600"
+          className="w-full bg-blue-theme-500 hover:bg-blue-theme-600"
         >
           View Profile
         </Button>

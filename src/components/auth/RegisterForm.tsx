@@ -126,15 +126,15 @@ const RegisterForm: React.FC = () => {
             id="terms"
             type="checkbox"
             required
-            className="h-4 w-4 rounded border-gray-300 text-nigerian-green-500 focus:ring-nigerian-green-500"
+            className="h-4 w-4 rounded border-gray-300 text-blue-theme-500 focus:ring-blue-theme-500"
           />
           <label htmlFor="terms" className="text-sm text-gray-700 dark:text-gray-300">
             I agree to the{' '}
-            <a href="/terms" className="text-nigerian-green-500 hover:underline">
+            <a href="/terms" className="text-blue-theme-500 hover:underline">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="/privacy" className="text-nigerian-green-500 hover:underline">
+            <a href="/privacy" className="text-blue-theme-500 hover:underline">
               Privacy Policy
             </a>
           </label>
@@ -142,7 +142,7 @@ const RegisterForm: React.FC = () => {
         
         <Button
           type="submit"
-          className="w-full bg-nigerian-green-500 hover:bg-nigerian-green-600"
+          className="w-full bg-blue-theme-500 hover:bg-blue-theme-600"
           disabled={isLoading}
         >
           {isLoading ? 'Creating Account...' : 'Sign up'}
@@ -152,7 +152,7 @@ const RegisterForm: React.FC = () => {
       <div className="mt-6 text-center text-sm">
         <p className="text-gray-600 dark:text-gray-400">
           Already have an account?{' '}
-          <a href="/login" className="text-nigerian-green-500 hover:underline">
+          <a href="/login" className="text-blue-theme-500 hover:underline">
             Log in
           </a>
         </p>

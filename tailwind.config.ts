@@ -66,19 +66,19 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-        // Nigerian flag colors
-        "nigerian-green": {
-          DEFAULT: "#008753",
-          50: "#E5FFEF",
-          100: "#C2FFDF",
-          200: "#83FFBD",
-          300: "#43FC9D",
-          400: "#0CDF79",
-          500: "#008753", 
-          600: "#006942",
-          700: "#004E31",
-          800: "#00321F",
-          900: "#001A10",
+        // Blue theme colors replacing Nigerian green
+        "blue-theme": {
+          DEFAULT: "#1E88E5",
+          50: "#E3F2FD",
+          100: "#BBDEFB",
+          200: "#90CAF9",
+          300: "#64B5F6",
+          400: "#42A5F5",
+          500: "#1E88E5", 
+          600: "#1976D2",
+          700: "#1565C0",
+          800: "#0D47A1",
+          900: "#0A3880",
         },
 			},
 			borderRadius: {

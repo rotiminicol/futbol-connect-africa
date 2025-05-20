@@ -61,7 +61,7 @@ const LoginForm: React.FC = () => {
             className="w-full"
           />
           <div className="flex justify-end">
-            <a href="/forgot-password" className="text-sm text-nigerian-green-500 hover:underline">
+            <a href="/forgot-password" className="text-sm text-blue-theme-500 hover:underline">
               Forgot password?
             </a>
           </div>
@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
         
         <Button
           type="submit"
-          className="w-full bg-nigerian-green-500 hover:bg-nigerian-green-600"
+          className="w-full bg-blue-theme-500 hover:bg-blue-theme-600"
           disabled={isLoading}
         >
           {isLoading ? 'Signing In...' : 'Sign In'}
@@ -79,7 +79,7 @@ const LoginForm: React.FC = () => {
       <div className="mt-6 text-center text-sm">
         <p className="text-gray-600 dark:text-gray-400">
           Don't have an account?{' '}
-          <a href="/register" className="text-nigerian-green-500 hover:underline">
+          <a href="/register" className="text-blue-theme-500 hover:underline">
             Register
           </a>
         </p>

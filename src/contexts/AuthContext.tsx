@@ -136,6 +136,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (error) throw error;
       
+      toast({
+        title: "Login successful",
+        description: "Welcome back!",
+      });
+      
     } catch (error: any) {
       console.error('Login error:', error);
       toast({
@@ -176,6 +181,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (error) throw error;
       
+      toast({
+        title: "Registration successful",
+        description: "Your account has been created successfully.",
+      });
+      
     } catch (error: any) {
       console.error('Signup error:', error);
       toast({
@@ -202,6 +212,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(null);
       setProfile(null);
       setSession(null);
+      
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
       
       // Force page reload
       window.location.href = '/';
