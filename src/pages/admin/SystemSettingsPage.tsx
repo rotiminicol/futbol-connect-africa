@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface SystemSetting {
+  id: string;
   key: string;
   value: string;
   description?: string;
@@ -60,21 +61,36 @@ const SystemSettingsPage: React.FC = () => {
 
       // If no settings exist, create default ones
       if (!data || data.length === 0) {
-        const defaultSettings: SystemSetting[] = [
+        const defaultSettings: Omit<SystemSetting, 'id'>[] = [
           { key: 'test_mode', value: 'true', description: 'Bypass payment requirements for all users' },
           { key: 'allow_registration', value: 'true', description: 'Allow new user registrations' },
           { key: 'auto_verify', value: 'false', description: 'Automatically verify new users' },
           { key: 'maintenance_mode', value: 'false', description: 'Put site in maintenance mode (admins only)' },
         ];
 
-        // Insert default settings
-        const { error: insertError } = await supabase
-          .from('system_settings')
-          .insert(defaultSettings);
+        try {
+          // Insert default settings
+          for (const setting of defaultSettings) {
+            await supabase
+              .from('system_settings')
+              .insert(setting);
+          }
 
-        if (insertError) throw insertError;
+          // Fetch again after insertion
+          const { data: newData, error: newError } = await supabase
+            .from('system_settings')
+            .select('*');
 
-        setSettings(defaultSettings);
+          if (newError) throw newError;
+          setSettings(newData);
+        } catch (insertError) {
+          console.error('Error inserting default settings:', insertError);
+          toast({
+            title: "Error",
+            description: "Failed to create default system settings",
+            variant: "destructive",
+          });
+        }
       } else {
         setSettings(data);
       }
@@ -140,30 +156,30 @@ const SystemSettingsPage: React.FC = () => {
     if (window.confirm('Are you sure you want to reset all settings to their defaults?')) {
       setIsSaving(true);
       try {
-        const defaultSettings: SystemSetting[] = [
-          { key: 'test_mode', value: 'true', description: 'Bypass payment requirements for all users' },
-          { key: 'allow_registration', value: 'true', description: 'Allow new user registrations' },
-          { key: 'auto_verify', value: 'false', description: 'Automatically verify new users' },
-          { key: 'maintenance_mode', value: 'false', description: 'Put site in maintenance mode (admins only)' },
-        ];
+        const defaultValues = {
+          'test_mode': 'true',
+          'allow_registration': 'true',
+          'auto_verify': 'false',
+          'maintenance_mode': 'false'
+        };
 
-        // Delete all existing settings
-        const { error: deleteError } = await supabase
+        // Update existing settings to default values
+        for (const [key, value] of Object.entries(defaultValues)) {
+          await supabase
+            .from('system_settings')
+            .update({ value })
+            .eq('key', key);
+        }
+
+        // Fetch updated settings
+        const { data, error } = await supabase
           .from('system_settings')
-          .delete()
-          .not('key', 'eq', 'impossible_key');
+          .select('*');
 
-        if (deleteError) throw deleteError;
-
-        // Insert default settings
-        const { error: insertError } = await supabase
-          .from('system_settings')
-          .insert(defaultSettings);
-
-        if (insertError) throw insertError;
-
-        setSettings(defaultSettings);
-
+        if (error) throw error;
+        
+        setSettings(data);
+        
         toast({
           title: "Settings Reset",
           description: "All system settings have been reset to their defaults",

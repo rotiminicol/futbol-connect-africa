@@ -162,6 +162,7 @@ export type Database = {
           current_club: string | null
           height: number | null
           id: string
+          is_admin_created: boolean | null
           position: string | null
           preferred_foot: string | null
           secondary_position: string | null
@@ -176,6 +177,7 @@ export type Database = {
           current_club?: string | null
           height?: number | null
           id: string
+          is_admin_created?: boolean | null
           position?: string | null
           preferred_foot?: string | null
           secondary_position?: string | null
@@ -190,6 +192,7 @@ export type Database = {
           current_club?: string | null
           height?: number | null
           id?: string
+          is_admin_created?: boolean | null
           position?: string | null
           preferred_foot?: string | null
           secondary_position?: string | null
@@ -373,6 +376,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      system_settings: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          key: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          key: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          key?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
       }
     }
     Views: {

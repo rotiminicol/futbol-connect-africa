@@ -31,6 +31,7 @@ interface PlayerWithProfile {
   email: string;
   is_verified: boolean;
   avatar_url?: string;
+  created_at: string;
   age?: number;
   position?: string;
   secondary_position?: string;
@@ -40,7 +41,6 @@ interface PlayerWithProfile {
   preferred_foot?: string;
   height?: number;
   weight?: number;
-  created_at: string;
 }
 
 const PlayersManagementPage: React.FC = () => {
@@ -82,57 +82,45 @@ const PlayersManagementPage: React.FC = () => {
   // Fetch all players
   const fetchPlayers = async () => {
     try {
-      // Join profiles with player_profiles
-      const { data, error } = await supabase
+      // First get all profiles that have the role 'player'
+      const { data: playerProfiles, error: profilesError } = await supabase
         .from('profiles')
-        .select(`
-          id,
-          full_name,
-          email,
-          is_verified,
-          avatar_url,
-          created_at,
-          player_profiles (
-            age,
-            position,
-            secondary_position,
-            current_club,
-            available_for_transfer,
-            is_admin_created,
-            preferred_foot,
-            height,
-            weight
-          )
-        `)
-        .eq('role', 'player')
-        .order('created_at', { ascending: false });
+        .select('*')
+        .eq('role', 'player');
 
-      if (error) throw error;
+      if (profilesError) throw profilesError;
+
+      // For each player, get their player_profile data
+      const playersWithDetails: PlayerWithProfile[] = [];
       
-      // Format data
-      const formattedPlayers = (data || []).map(item => {
-        const playerProfile = item.player_profiles[0] || {};
-        return {
-          id: item.id,
-          full_name: item.full_name,
-          email: item.email,
-          is_verified: item.is_verified,
-          avatar_url: item.avatar_url,
-          created_at: item.created_at,
-          age: playerProfile.age,
-          position: playerProfile.position,
-          secondary_position: playerProfile.secondary_position,
-          current_club: playerProfile.current_club,
-          available_for_transfer: playerProfile.available_for_transfer || false,
-          is_admin_created: playerProfile.is_admin_created || false,
-          preferred_foot: playerProfile.preferred_foot,
-          height: playerProfile.height,
-          weight: playerProfile.weight
-        };
-      });
+      for (const playerProfile of playerProfiles) {
+        const { data: playerDetails, error: playerError } = await supabase
+          .from('player_profiles')
+          .select('*')
+          .eq('id', playerProfile.id)
+          .single();
+
+        if (playerError && playerError.code !== 'PGRST116') {
+          // PGRST116 is "no rows returned" - not an error if player has no details yet
+          console.error('Error fetching player details:', playerError);
+        }
+
+        playersWithDetails.push({
+          ...playerProfile,
+          age: playerDetails?.age,
+          position: playerDetails?.position,
+          secondary_position: playerDetails?.secondary_position,
+          current_club: playerDetails?.current_club,
+          available_for_transfer: playerDetails?.available_for_transfer || false,
+          is_admin_created: playerDetails?.is_admin_created || false,
+          preferred_foot: playerDetails?.preferred_foot,
+          height: playerDetails?.height,
+          weight: playerDetails?.weight,
+        });
+      }
       
-      setPlayers(formattedPlayers);
-      setFilteredPlayers(formattedPlayers);
+      setPlayers(playersWithDetails);
+      setFilteredPlayers(playersWithDetails);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching players:', error);

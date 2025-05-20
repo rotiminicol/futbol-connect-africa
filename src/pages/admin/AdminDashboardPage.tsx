@@ -7,6 +7,13 @@ import { supabase } from '@/integrations/supabase/client';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminStats from '@/components/admin/AdminStats';
 
+// Define an interface for system settings
+interface SystemSetting {
+  key: string;
+  value: string;
+  description?: string;
+}
+
 const AdminDashboardPage: React.FC = () => {
   const { user, profile } = useAuth();
   const { toast } = useToast();
@@ -39,13 +46,13 @@ const AdminDashboardPage: React.FC = () => {
         fetchDashboardStats();
         
         // Check test mode status
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('system_settings')
-          .select('value')
+          .select('*')
           .eq('key', 'test_mode')
           .single();
           
-        if (data) {
+        if (data && !error) {
           setTestMode(data.value === 'true');
         }
       } else {
@@ -67,62 +74,53 @@ const AdminDashboardPage: React.FC = () => {
   const fetchDashboardStats = async () => {
     try {
       // Get total users count by role
-      const { data: roleCounts } = await supabase
+      const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
-        .select('role, count')
-        .group('role');
+        .select('role');
         
+      if (profilesError) throw profilesError;
+        
+      // Count roles manually
+      const roleCounts: Record<string, number> = {};
+      let totalUsers = 0;
+        
+      profiles.forEach(profile => {
+        const role = profile.role;
+        if (role) {
+          roleCounts[role] = (roleCounts[role] || 0) + 1;
+          totalUsers++;
+        }
+      });
+      
       // Get available players count
-      const { count: availablePlayers } = await supabase
+      const { count: availablePlayers, error: availableError } = await supabase
         .from('player_profiles')
-        .select('id', { count: 'exact' })
+        .select('id', { count: 'exact', head: true })
         .eq('available_for_transfer', true);
+        
+      if (availableError) throw availableError;
         
       // Get recently added profiles count (last 7 days)
       const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
       
-      const { count: recentlyAdded } = await supabase
+      const { count: recentlyAdded, error: recentError } = await supabase
         .from('profiles')
-        .select('id', { count: 'exact' })
+        .select('id', { count: 'exact', head: true })
         .gte('created_at', oneWeekAgo.toISOString());
 
+      if (recentError) throw recentError;
+
       // Update stats
-      const statsData = {
-        totalUsers: 0,
-        totalPlayers: 0,
-        totalCoaches: 0,
-        totalAgents: 0,
-        totalClubStaff: 0,
+      setStats({
+        totalUsers: totalUsers || 0,
+        totalPlayers: roleCounts['player'] || 0,
+        totalCoaches: roleCounts['coach'] || 0,
+        totalAgents: roleCounts['agent'] || 0,
+        totalClubStaff: roleCounts['club_staff'] || 0,
         availablePlayers: availablePlayers || 0,
         recentlyAdded: recentlyAdded || 0,
-      };
-      
-      if (roleCounts) {
-        roleCounts.forEach((item) => {
-          const count = parseInt(item.count);
-          statsData.totalUsers += count;
-          
-          switch(item.role) {
-            case 'player':
-              statsData.totalPlayers = count;
-              break;
-            case 'coach':
-              statsData.totalCoaches = count;
-              break;
-            case 'agent':
-              statsData.totalAgents = count;
-              break;
-            case 'club_staff':
-              statsData.totalClubStaff = count;
-              break;
-            default:
-              break;
-          }
-        });
-      }
-      
-      setStats(statsData);
+      });
     } catch (error) {
       console.error('Error fetching admin stats:', error);
       toast({
@@ -140,7 +138,8 @@ const AdminDashboardPage: React.FC = () => {
       
       const { error } = await supabase
         .from('system_settings')
-        .upsert({ key: 'test_mode', value: newValue.toString() });
+        .update({ value: newValue.toString() })
+        .eq('key', 'test_mode');
         
       if (error) throw error;
       
